@@ -1,6 +1,5 @@
 package com.jamesmatherly.sample.project.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jamesmatherly.sample.project.model.YahooSummaryField;
 
 import lombok.AllArgsConstructor;

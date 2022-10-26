@@ -1,23 +1,17 @@
 package com.jamesmatherly.sample.project.service;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jamesmatherly.sample.project.dto.YahooFinanceSummaryDto;
 import com.jamesmatherly.sample.project.model.YahooSummaryResponse;
 
 @Service
 public class StockService {
-    @Autowired
-    private ObjectMapper mapper;
-
-
-    public YahooFinanceSummaryDto getSummaryFromYahoo(String ticker) {
+    public YahooFinanceSummaryDto getSummaryFromYahoo(String ticker) throws NullPointerException {
         RestTemplate template = new RestTemplate();
         UriComponentsBuilder uBuilder = UriComponentsBuilder.fromUriString("https://query1.finance.yahoo.com")
             .path("/v11/finance/quoteSummary/")

@@ -15,7 +15,6 @@ public class StockController {
     
     @GetMapping("/controller")
     public YahooFinanceSummaryDto getYahooSummary(@RequestParam String ticker) {
-        
         return service.getSummaryFromYahoo(ticker);
     }
 
