@@ -7,7 +7,11 @@ This repo is setup to automatically build a docker image and deploy it to ECS wh
 
 
 Future plans:
+
 Add CI pipeline to build and test new features automatically before deployment
+
 Integration with AWS-hosted NoSQL database
+
 Create more repos with more microservices that interact with each other in AWS
+
 Front end implementation
