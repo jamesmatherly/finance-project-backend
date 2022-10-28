@@ -39,6 +39,8 @@ env:
                                                           # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: yahoo-container                         # set this to the name of the container in the
                                                           # containerDefinitions section of your task definition
+  TARGET_GROUP_ARN: arn:aws:elasticloadbalancing:us-east-2:457030438967:targetgroup/yahoo-target/3207829ba6d22e2b
+                                                           # Target Group ARN
 
 permissions:
   contents: read
@@ -99,3 +101,28 @@ jobs:
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
+
+    - name: Deregister/register ECS target in target group
+      id: target-update
+      run: |
+        # Deregister old ECS IP
+        oldIp=$(aws elbv2 describe-target-health \
+          --target-group-arn ${{ env.TARGET_GROUP_ARN }} \
+          --query 'TargetHealthDescriptions[0].Target.Id' \
+          | tr -d '"')
+        aws elbv2 deregister-targets \
+          --target-group-arn ${{ env.TARGET_GROUP_ARN}} \
+          --targets Id=$oldIp
+        # Register new ECS IP
+        taskArn=$(aws ecs list-tasks \
+          --cluster ${{ ECS_CLUSTER }} \
+          --query "taskArns[0]" \
+          | tr -d '"')
+        newIp=$(aws ecs describe-tasks \
+          --cluster ${{ ECS_CLUSTER }} \
+          --tasks $taskArn \
+          --query "tasks[0].containers[0].networkInterfaces[0].privateIpv4Address" \
+          | tr -d '"')
+        aws elbv2 register-targets \
+          --target-group-arn ${{ env.TARGET_GROUP_ARN}} \
+          --targets Id=$newIp
