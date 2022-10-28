@@ -4,6 +4,12 @@ Created as part of an ongoing effort to learn about AWS
 
 This repo is setup to automatically build a docker image and deploy it to ECS whenever master is updated
 
+The ECS container sits behind a load balancer in AWS. The domain jameslearnscloud.com was registered via Route 53 which routes to the load balancer.
+
+At this time, the only endpoint available is '/controller' which takes query param 'ticker'. The application takes the ticker value and returns the target high price from the Yahoo Finance API.
+
+ex: jameslearnscloud.com/controller?ticker=aapl
+
 
 
 Future plans:
