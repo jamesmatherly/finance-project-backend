@@ -5,15 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.nio.charset.Charset;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.StreamUtils;
 
 import com.jamesmatherly.sample.project.dto.YahooFinanceSummaryDto;
 import com.jamesmatherly.sample.project.model.YahooSummaryField;
@@ -29,10 +24,10 @@ public class StockServiceTest extends BaseUnitTest {
 
     @Test
     public void getSummaryFromYahooSuccess() throws Exception {
-        ClassPathResource responseFile = new ClassPathResource("YahooFinanceResponseJson/v11/finance/quoteSummary/TickerGmeResponse.json");
-        String responseString = StreamUtils.copyToString(responseFile.getInputStream(), Charset.defaultCharset());
-        YahooSummaryResponse responseObject = mapper.readValue(responseString, YahooSummaryResponse.class);
-        when(template.getForEntity(any(), any())).thenReturn(new ResponseEntity<>(responseObject, HttpStatus.OK));
+        when(template.getForEntity(any(), any()))
+        .thenReturn(createEntity("YahooFinanceResponseJson/v11/finance/quoteSummary/TickerGmeResponse.json",
+            YahooSummaryResponse.class,
+            HttpStatus.OK));
 
         YahooSummaryField expectField = new YahooSummaryField();
         expectField.setFmt("220.00");
