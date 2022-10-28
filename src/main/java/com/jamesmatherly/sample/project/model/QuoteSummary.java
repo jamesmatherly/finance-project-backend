@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class QuoteSummary {
     List<Map<String, FinancialData>> result;
+    String error;
 }
