@@ -20,4 +20,14 @@ public class StockController {
         return service.getSummaryFromYahoo(ticker);
     }
 
+    @GetMapping("/yahooRecommendation")
+    public String getYahooRec(@RequestParam String ticker) {
+        return service.getSummaryFromYahoo(ticker).getRecommendationKey();
+    }
+
+    @GetMapping("/priceCheck")
+    public String getCurrentPrice(@RequestParam String ticker) {
+        return service.getSummaryFromYahoo(ticker).getCurrentPrice().getRaw();
+    }
+
 }
