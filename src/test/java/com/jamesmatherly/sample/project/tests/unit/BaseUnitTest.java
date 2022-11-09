@@ -13,14 +13,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BaseUnitTest {
     @Mock
-    protected RestTemplate template;
+    protected RestTemplate baseTemplate;
 
-    protected ObjectMapper mapper = new ObjectMapper();
+    protected ObjectMapper baseObjectMapper = new ObjectMapper();
 
     protected <T> ResponseEntity<Object> createEntity(String content, Class<T> valueType, HttpStatus status) throws Exception {
         ClassPathResource responseFile = new ClassPathResource("YahooFinanceResponseJson/v11/finance/quoteSummary/TickerGmeResponse.json");
         String responseString = StreamUtils.copyToString(responseFile.getInputStream(), Charset.defaultCharset());
-        T responseObject = mapper.readValue(responseString, valueType);
+        T responseObject = baseObjectMapper.readValue(responseString, valueType);
         return new ResponseEntity<Object>(responseObject, status);
     }
     

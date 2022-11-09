@@ -6,4 +6,5 @@ import lombok.Data;
 public class YahooSummaryField {
     String raw;
     String fmt;
+    String longFmt;
 }

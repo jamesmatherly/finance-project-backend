@@ -13,5 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class YahooFinanceSummaryDto {
 
+    YahooSummaryField currentPrice;
     YahooSummaryField targetHighPrice;
+    String recommendationKey;
 }
