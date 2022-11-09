@@ -1,4 +1,4 @@
-package com.jamesmatherly.sample.project;
+package com.jamesmatherly.sample.project.tests;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
