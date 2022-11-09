@@ -10,6 +10,10 @@ At this time, the only endpoint available is '/controller' which takes query par
 
 ex: api.jameslearnscloud.com/controller?ticker=aapl
 
+There is a front end Angular project that is being developed alongside this service. The repo can be found [here](https://github.com/jamesmatherly/angular-sample-project) and the website can be found [here](http://jameslearnscloud.com).
+
+On the website, click on the "Yahoo" button on the top left of the screen and enter a ticker into the search bar. The result from this service will display on the page.
+
 ## Current unresolved issues
 
 - ECS unable to drain and spin up new task on deploy.
@@ -26,8 +30,6 @@ ex: api.jameslearnscloud.com/controller?ticker=aapl
 
 - Add CI pipeline to build and test new features automatically before deployment
 
-- Integration with AWS-hosted NoSQL database
+- Integration with AWS-hosted databases
 
 - Create more repos with more microservices that interact with each other in AWS
-
-- Front end implementation
