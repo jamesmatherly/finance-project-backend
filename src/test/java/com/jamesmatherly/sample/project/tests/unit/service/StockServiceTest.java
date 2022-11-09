@@ -34,7 +34,7 @@ public class StockServiceTest extends BaseUnitTest {
     @Test
     public void getSummaryFromYahooSuccess() throws Exception {
         when(baseTemplate.getForEntity(any(), any()))
-        .thenReturn(createEntity("YahooFinanceResponseJson/v11/finance/quoteSummary/TickerGmeResponse.json",
+        .thenReturn(createEntity("YahooFinanceResponseJson/v11/finance/quoteSummary/TickerAaplResponse.json",
             YahooSummaryResponse.class,
             HttpStatus.OK));
 

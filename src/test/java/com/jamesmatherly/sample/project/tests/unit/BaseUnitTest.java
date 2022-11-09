@@ -18,7 +18,7 @@ public class BaseUnitTest {
     protected ObjectMapper baseObjectMapper = new ObjectMapper();
 
     protected <T> ResponseEntity<Object> createEntity(String content, Class<T> valueType, HttpStatus status) throws Exception {
-        ClassPathResource responseFile = new ClassPathResource("YahooFinanceResponseJson/v11/finance/quoteSummary/TickerGmeResponse.json");
+        ClassPathResource responseFile = new ClassPathResource(content);
         String responseString = StreamUtils.copyToString(responseFile.getInputStream(), Charset.defaultCharset());
         T responseObject = baseObjectMapper.readValue(responseString, valueType);
         return new ResponseEntity<Object>(responseObject, status);
