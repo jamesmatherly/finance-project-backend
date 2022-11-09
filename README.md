@@ -24,10 +24,10 @@ ex: api.jameslearnscloud.com/controller?ticker=aapl
 
 ## Future plans:
 
-Add CI pipeline to build and test new features automatically before deployment
+- Add CI pipeline to build and test new features automatically before deployment
 
-Integration with AWS-hosted NoSQL database
+- Integration with AWS-hosted NoSQL database
 
-Create more repos with more microservices that interact with each other in AWS
+- Create more repos with more microservices that interact with each other in AWS
 
-Front end implementation
+- Front end implementation
