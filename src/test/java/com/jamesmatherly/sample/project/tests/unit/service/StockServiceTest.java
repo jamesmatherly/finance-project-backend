@@ -21,8 +21,6 @@ import com.jamesmatherly.sample.project.model.YahooSummaryResponse;
 import com.jamesmatherly.sample.project.service.StockService;
 import com.jamesmatherly.sample.project.tests.unit.BaseUnitTest;
 
-import lombok.extern.java.Log;
-
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class StockServiceTest extends BaseUnitTest {
