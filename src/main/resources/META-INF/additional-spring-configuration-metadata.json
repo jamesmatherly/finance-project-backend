@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "finnhub.token",
+  "type": "java.lang.String",
+  "description": "API token for Finnhub"
+}]}
