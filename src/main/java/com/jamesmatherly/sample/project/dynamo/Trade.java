@@ -38,7 +38,7 @@ public class Trade {
     
     private String name;
     
-    private String value;
+    private float value;
     
     private String ticker;
     

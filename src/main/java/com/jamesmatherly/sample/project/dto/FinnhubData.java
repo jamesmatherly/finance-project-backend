@@ -1,4 +1,4 @@
-package com.jamesmatherly.sample.project.model;
+package com.jamesmatherly.sample.project.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

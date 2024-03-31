@@ -2,6 +2,7 @@ package com.jamesmatherly.sample.project.service;
 
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,48 +12,47 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.jamesmatherly.sample.project.dto.YahooFinanceSummaryDto;
-import com.jamesmatherly.sample.project.mapper.YahooMapper;
-import com.jamesmatherly.sample.project.model.FinancialData;
-import com.jamesmatherly.sample.project.model.FinnhubData;
-import com.jamesmatherly.sample.project.model.YahooSummaryResponse;
+import com.jamesmatherly.sample.project.dto.FinnhubData;
+import com.jamesmatherly.sample.project.dynamo.Trade;
+import com.jamesmatherly.sample.project.dynamo.TradeRepository;
+import com.jamesmatherly.sample.project.mapper.StockDataMapper;
+import com.jamesmatherly.sample.project.model.StockData;
 
 import lombok.extern.java.Log;
 
 @Service
 @Log
 public class StockService {
-    
-    @Autowired
-    public YahooMapper yahooMapper;
 
     @Autowired
     RestTemplate template;
 
+    @Autowired
+    TradeRepository tradeRepository;
+
+    @Autowired
+    public StockDataMapper stockDataMapper;
+
     @Value("${finnhub.token}")
     private String FINNHUB_TOKEN;
 
-    public YahooFinanceSummaryDto getSummaryFromYahoo(String ticker) {
-        YahooFinanceSummaryDto result =  new YahooFinanceSummaryDto();
+    public StockData geStockData(String ticker) {
         try {
-            UriComponentsBuilder uBuilder = UriComponentsBuilder.fromUriString("https://query1.finance.yahoo.com")
-                .path("/v11/finance/quoteSummary/")
-                .path(ticker)
-                .queryParam("modules", "financialData");
-            ResponseEntity<YahooSummaryResponse> response = template.getForEntity(uBuilder.build().toUri(), YahooSummaryResponse.class);
-            
-            if (response.getBody() != null) {
-                FinancialData data = response.getBody().getQuoteSummary().getResult().get(0).get("financialData");
-                result = yahooMapper.finDataToDto(data);
-            }
+            UriComponentsBuilder uBuilder = UriComponentsBuilder.fromUriString("https://finnhub.io/api/v1/")
+                .path("quote")
+                .queryParam("symbol", ticker);
+            RequestEntity<Void> request = RequestEntity.get(uBuilder.build().toUri())
+                .header("X-Finnhub-Token", FINNHUB_TOKEN)
+                .build();
+            ResponseEntity<FinnhubData> response = template.exchange(request, FinnhubData.class);
             template.close();
+            StockData result = stockDataMapper.finDataToDto(response.getBody());
+            result.setTicker(ticker);
+            return result;
         } catch (NullPointerException | IOException e) {
-            if (yahooMapper == null) {
-                log.info("Mapper not injected properly");
-            }
             log.info("Error when retrieving entity for ticker " + ticker);
+            return null;
         }
-        return result;
     }
 
     public FinnhubData getSummaryFromFinnhub(String ticker) {
@@ -70,5 +70,24 @@ public class StockService {
             log.info("Error when retrieving entity for ticker " + ticker);
             return null;
         }
+    }
+
+    public String executeTrade(String ticker, String tradeType, String executionType, double quantity) {
+        StockData data = geStockData(ticker);
+        Trade trade = new Trade();
+        trade.setPositionId("1");
+        trade.setPortfolioId("1");
+        trade.setTradeType(tradeType);
+        trade.setExecutionType(executionType);
+        trade.setExecutionTime(LocalDateTime.now().toString());
+        trade.setQuantity(quantity);
+        trade.setName(ticker);
+        trade.setValue(data.getStockPrice());
+        trade.setTicker(ticker);
+        return tradeRepository.executeTrade(trade);
+    }
+
+    public Trade getTrade(String id, String executionTime) {
+        return tradeRepository.getTradeById(id, executionTime);
     }
 }
