@@ -3,6 +3,7 @@ package com.jamesmatherly.sample.project.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,8 +31,8 @@ public class StockController {
     }
 
     @PostMapping("/trade")
-    public String executeTrade(@RequestParam String ticker, @RequestParam double quantity) {
-        return service.executeTrade(ticker, "BUY", "MARKET", quantity);
+    public String executeTrade(@ModelAttribute Trade trade) {
+        return service.executeTrade(trade);
     }
 
     @GetMapping("/trade")

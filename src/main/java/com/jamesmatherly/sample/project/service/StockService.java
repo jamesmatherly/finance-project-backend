@@ -3,6 +3,7 @@ package com.jamesmatherly.sample.project.service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,18 +73,12 @@ public class StockService {
         }
     }
 
-    public String executeTrade(String ticker, String tradeType, String executionType, double quantity) {
-        StockData data = geStockData(ticker);
-        Trade trade = new Trade();
-        trade.setPositionId("1");
-        trade.setPortfolioId("1");
-        trade.setTradeType(tradeType);
-        trade.setExecutionType(executionType);
+    public String executeTrade(Trade trade) {
+        StockData data = geStockData(trade.getTicker());
+        trade.setPositionId(UUID.randomUUID().toString());
         trade.setExecutionTime(LocalDateTime.now().toString());
-        trade.setQuantity(quantity);
-        trade.setName(ticker);
         trade.setValue(data.getStockPrice());
-        trade.setTicker(ticker);
+        trade.setId(UUID.randomUUID().toString());
         return tradeRepository.executeTrade(trade);
     }
 
