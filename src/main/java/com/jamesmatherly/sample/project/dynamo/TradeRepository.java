@@ -14,7 +14,8 @@ public class TradeRepository {
 
     private final DynamoDbTable<Trade> tradeTable;
 
-    public  TradeRepository(@Autowired DynamoDbEnhancedClient dynamo) {
+    @Autowired
+    public TradeRepository(DynamoDbEnhancedClient dynamo) {
         this.tradeTable = dynamo.table("trades", TableSchema.fromBean(Trade.class));
     }
 
@@ -23,7 +24,7 @@ public class TradeRepository {
         return trade.getId();
     }
 
-    public Trade getTradeById(String id, String executionTime) {
+    public Trade getById(String id, String executionTime) {
         Trade trade = new Trade();
         trade.setId(id);
         trade.setExecutionTime(executionTime);

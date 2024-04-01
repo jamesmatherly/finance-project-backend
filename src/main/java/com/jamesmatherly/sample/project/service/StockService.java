@@ -31,7 +31,7 @@ public class StockService {
     TradeRepository tradeRepository;
 
     @Autowired
-    public StockDataMapper stockDataMapper;
+    StockDataMapper stockDataMapper;
 
     @Value("${finnhub.token}")
     private String FINNHUB_TOKEN;
@@ -88,6 +88,6 @@ public class StockService {
     }
 
     public Trade getTrade(String id, String executionTime) {
-        return tradeRepository.getTradeById(id, executionTime);
+        return tradeRepository.getById(id, executionTime);
     }
 }
