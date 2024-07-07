@@ -1,8 +1,12 @@
 package com.jamesmatherly.sample.project.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+
+import com.jamesmatherly.sample.project.mapper.UserDataMapper;
+import com.jamesmatherly.sample.project.model.UserData;
 
 import lombok.extern.java.Log;
 import software.amazon.awssdk.regions.Region;
@@ -21,6 +25,9 @@ public class UserService {
     @Value("${aws.cognito.poolId}")
     private String poolId;
 
+    @Autowired
+    UserDataMapper userDataMapper;
+
     @Bean
     CognitoIdentityProviderClient cognitoClient() {
         return CognitoIdentityProviderClient.builder()
@@ -28,7 +35,7 @@ public class UserService {
             .build();
     }
 
-    public String getUser(String username) {
+    public UserData getUser(String username) {
         try {
             AdminGetUserRequest userRequest = AdminGetUserRequest.builder()
                     .username(username)
@@ -36,14 +43,14 @@ public class UserService {
                     .build();
 
             AdminGetUserResponse response = cognitoClient().adminGetUser(userRequest);
-            System.out.println("User status " + response.userStatusAsString());
+            return userDataMapper.cognitoUsertoUserDate(response);
 
         } catch (CognitoIdentityProviderException e) {
             System.err.println(e.awsErrorDetails().errorMessage());
             System.exit(1);
         }
 
-        return "";
+        return new UserData();
     }
 
 }

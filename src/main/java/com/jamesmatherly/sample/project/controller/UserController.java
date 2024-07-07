@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.jamesmatherly.sample.project.dynamo.Portfolio;
+import com.jamesmatherly.sample.project.model.UserData;
 import com.jamesmatherly.sample.project.service.PortfolioService;
 import com.jamesmatherly.sample.project.service.UserService;
 
@@ -23,7 +24,7 @@ public class UserController {
     PortfolioService portfolioService;
 
     @GetMapping("/user/username")
-    public String getUserByUsername(@RequestParam String username) {
+    public UserData getUserByUsername(@RequestParam String username) {
         return userService.getUser(username);
     }
 
