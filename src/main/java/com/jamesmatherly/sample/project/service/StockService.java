@@ -1,7 +1,6 @@
 package com.jamesmatherly.sample.project.service;
 
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -46,11 +45,10 @@ public class StockService {
                 .header("X-Finnhub-Token", FINNHUB_TOKEN)
                 .build();
             ResponseEntity<FinnhubData> response = template.exchange(request, FinnhubData.class);
-            template.close();
             StockData result = stockDataMapper.finDataToDto(response.getBody());
             result.setTicker(ticker);
             return result;
-        } catch (NullPointerException | IOException e) {
+        } catch (NullPointerException e) {
             log.info("Error when retrieving entity for ticker " + ticker);
             return null;
         }
@@ -65,9 +63,8 @@ public class StockService {
                 .header("X-Finnhub-Token", FINNHUB_TOKEN)
                 .build();
             ResponseEntity<FinnhubData> response = template.exchange(request, FinnhubData.class);
-            template.close();
             return response.getBody();
-        } catch (NullPointerException | IOException e) {
+        } catch (NullPointerException e) {
             log.info("Error when retrieving entity for ticker " + ticker);
             return null;
         }

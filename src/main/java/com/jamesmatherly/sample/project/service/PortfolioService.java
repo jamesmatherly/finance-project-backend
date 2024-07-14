@@ -7,6 +7,8 @@ import com.jamesmatherly.sample.project.dynamo.Portfolio;
 import com.jamesmatherly.sample.project.dynamo.PortfolioRepository;
 
 import lombok.extern.java.Log;
+import software.amazon.awssdk.core.pagination.sync.SdkIterable;
+import software.amazon.awssdk.enhanced.dynamodb.model.Page;
 
 @Service
 @Log
@@ -20,5 +22,9 @@ public class PortfolioService {
 
     public Portfolio updatePortfolio(Portfolio portfolio) {
         return repository.updatePortfolio(portfolio);
+    }
+
+    public SdkIterable<Page<Portfolio>> getPortfolioByUser(String username) {
+        return repository.getByUsername(username);
     }
 }
