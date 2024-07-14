@@ -42,6 +42,8 @@ public class DynamoDBConfig {
     private DynamoDbClient getDynamoDbClient() {
 		ClientOverrideConfiguration.Builder overrideConfig =
 		ClientOverrideConfiguration.builder();
+		System.setProperty("aws.accessKeyId", dynamodbAccessKey);
+		System.setProperty("aws.secretAccessKey", dynamodbSecretKey);
 
 		return DynamoDbClient.builder()
 		.overrideConfiguration(overrideConfig.build())
