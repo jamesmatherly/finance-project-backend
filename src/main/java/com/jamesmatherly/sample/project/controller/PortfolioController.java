@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.jamesmatherly.sample.project.dynamo.Portfolio;
+import com.jamesmatherly.sample.project.model.Position;
 import com.jamesmatherly.sample.project.service.PortfolioService;
 import com.jamesmatherly.sample.project.service.UserService;
 
@@ -41,11 +42,17 @@ public class PortfolioController {
 
     @GetMapping("/portfolio/username")
     public List<Portfolio> getPortfolioByUser(@RequestParam String username) {
-        ArrayList<Portfolio> portfolioList = new ArrayList();
+        ArrayList<Portfolio> portfolioList = new ArrayList<>();
         SdkIterable<Page<Portfolio>> portfolioIterator = portfolioService.getPortfolioByUser(username);
         portfolioIterator.forEach(page -> page.items().forEach(i -> portfolioList.add(i)));
         return portfolioList;
     }
+
+    @GetMapping("/portfolio/positions")
+    public List<Position> getPositions(@RequestBody Portfolio entity) {
+        return portfolioService.getPositions(entity).values().stream().toList();
+    }
+    
 
     @PostMapping("/portfolio")
     public Portfolio createUpdatePortfolio(@RequestBody Portfolio entity) {

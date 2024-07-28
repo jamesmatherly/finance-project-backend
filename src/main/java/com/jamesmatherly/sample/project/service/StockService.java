@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class StockService {
     RestTemplate template;
 
     @Autowired
+    @Lazy
     TradeRepository tradeRepository;
 
     @Autowired
@@ -72,7 +74,6 @@ public class StockService {
 
     public String executeTrade(Trade trade) {
         StockData data = geStockData(trade.getTicker());
-        trade.setPositionId(UUID.randomUUID().toString());
         trade.setExecutionTime(LocalDateTime.now().toString());
         trade.setValue(data.getStockPrice());
         trade.setId(UUID.randomUUID().toString());

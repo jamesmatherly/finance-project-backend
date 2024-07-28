@@ -1,10 +1,13 @@
 package com.jamesmatherly.sample.project.dynamo;
 
+import com.jamesmatherly.sample.project.model.TradeType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
 
 @Data
@@ -19,11 +22,13 @@ public class Trade {
 
     private String id;
 
-    private String positionId;
-
+    @DynamoDbSecondaryPartitionKey(indexNames = "portfolio-index")
+    public String getPortfolioId() {
+        return this.portfolioId;
+    }
     private String portfolioId;
     
-    private String tradeType;
+    private TradeType tradeType;
     
     private String executionType;
     
@@ -33,7 +38,7 @@ public class Trade {
     }
     private String executionTime;
     
-    private double quantity;
+    private float quantity;
     
     private String name;
     
