@@ -49,7 +49,8 @@ public class PortfolioController {
     }
 
     @GetMapping("/portfolio/positions")
-    public List<Position> getPositions(@RequestBody Portfolio entity) {
+    public List<Position> getPositions(@RequestParam String portfolioId) {
+        Portfolio entity = portfolioService.getPortfolioById(portfolioId);
         return portfolioService.getPositions(entity).values().stream().toList();
     }
     

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jamesmatherly.sample.project.dto.AlphaVantageTimeSeriesDaily;
 import com.jamesmatherly.sample.project.dto.FinnhubData;
 import com.jamesmatherly.sample.project.dynamo.Portfolio;
 import com.jamesmatherly.sample.project.dynamo.Trade;
@@ -62,6 +63,11 @@ public class StockController {
     @GetMapping("/trade")
     public Trade getTrade(@RequestParam String id, @RequestParam String executionTime) {
         return stockService.getTrade(id, executionTime);
+    }
+    
+    @GetMapping("/history")
+    public AlphaVantageTimeSeriesDaily getMethodName(@RequestParam String ticker) {
+        return stockService.getAlphaVantageTimeSeriesDaily(ticker);
     }
     
     

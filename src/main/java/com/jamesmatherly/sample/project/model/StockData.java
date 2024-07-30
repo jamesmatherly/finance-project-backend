@@ -6,4 +6,5 @@ import lombok.Data;
 public class StockData {
     private String ticker;
     private float stockPrice;
+    private String percentChange;
 }
