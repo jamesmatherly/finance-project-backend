@@ -104,8 +104,9 @@ public class StockService {
     }
 
     public AlphaVantageTimeSeriesDaily getAlphaVantageTimeSeriesDaily(String ticker) {
+        String filePath = String.format("src/main/resources/AlphaVantage Time Series/%s.json", ticker);
         try {
-            File jsonFile = new File(String.format("src/main/resources/AlphaVantage Time Series/%s.json", ticker));
+            File jsonFile = new File(filePath);
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(jsonFile, AlphaVantageTimeSeriesDaily.class);
         } catch (IOException e) {
@@ -116,6 +117,13 @@ public class StockService {
                 .queryParam("apikey", ALPHAVANTAGE_TOKEN);
                 RequestEntity<Void> request = RequestEntity.get(uBuilder.build().toUri()).build();
             ResponseEntity<AlphaVantageTimeSeriesDaily> response = template.exchange(request, AlphaVantageTimeSeriesDaily.class);
+            AlphaVantageTimeSeriesDaily body = response.getBody();
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), body);
+            } catch (IOException ee) {
+                ee.printStackTrace();
+            }
             return response.getBody();
         }
     }

@@ -1,5 +1,17 @@
-{"properties": [{
-  "name": "finnhub.token",
-  "type": "java.lang.String",
-  "description": "API token for Finnhub"
-}]}
+{"properties": [
+  {
+    "name": "finnhub.token",
+    "type": "java.lang.String",
+    "description": "API token for Finnhub"
+  },
+  {
+    "name": "polygon.token",
+    "type": "java.lang.String",
+    "description": "API token for Polygon.io"
+  },
+  {
+    "name": "alphavantage.token",
+    "type": "java.lang.String",
+    "description": "API token for Alpha Vantage"
+  }
+]}
